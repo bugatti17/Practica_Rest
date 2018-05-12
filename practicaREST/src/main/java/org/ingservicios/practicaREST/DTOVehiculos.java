@@ -4,39 +4,36 @@ import java.sql.Timestamp;
 
 public class DTOVehiculos {
 
-	private int registro;
-	private int parkingID;
+	private int parkingId; //0 o 1
 	private String matricula;
 	private Timestamp fechaRegistro;
 	
 	
-	public DTOVehiculos() {
-		this.registro=0;
-		this.parkingID=0;
+	public DTOVehiculos(){
+		this.parkingId=0;
 		this.matricula="";
 		this.fechaRegistro=null;
 	}
 	
 	
-	public DTOVehiculos(int registro, int parkingID, String matricula, Timestamp fechaRegistro) {
-		this.registro = registro;
-		this.parkingID = parkingID;
+	public DTOVehiculos(int parkingID, String matricula, Timestamp fechaRegistro) {
+		this.parkingId = parkingID;
 		this.matricula = matricula;
 		this.fechaRegistro = fechaRegistro;
 	}
 	
-	public int getRegistro() {
-		return registro;
+
+	
+	public int getParkingId() {
+		return parkingId;
 	}
-	public void setRegistro(int registro) {
-		this.registro = registro;
+
+
+	public void setParkingId(int parkingId) {
+		this.parkingId = parkingId;
 	}
-	public int getParkingID() {
-		return parkingID;
-	}
-	public void setParkingID(int parkingID) {
-		this.parkingID = parkingID;
-	}
+
+
 	public String getMatricula() {
 		return matricula;
 	}
