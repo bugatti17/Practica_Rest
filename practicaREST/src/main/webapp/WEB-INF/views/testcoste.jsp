@@ -6,7 +6,7 @@
 <body>
  
 <form action="#" id="consulta">
-	Matricula: <input type="text" name="matricula" id="matricula">
+	Matricula: <input type="text" name="matricula" id="matricula" maxlength="8" required>
     <input type="submit" value="Consultar">
 </form>
 Coste:  <span id="coste"></span> Euros

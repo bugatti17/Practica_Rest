@@ -42,16 +42,17 @@ public class HomeController {
 		if(dao.buscaMatricula(vehiculo.getMatricula())==null && vehiculo.getParkingId()==0) {
 		dao.addVehiculo(vehiculo);
 		
-		
 		}else if(dao.buscaMatricula(vehiculo.getMatricula())!=null && vehiculo.getParkingId()==1 
 				&& dao.buscaParkingIDVehiculo(vehiculo.getParkingId())==null) {
 			dao.addVehiculo(vehiculo);
 			
 		}else if(dao.buscaMatricula(vehiculo.getMatricula())!=null && dao.buscaParkingIDVehiculo(vehiculo.getParkingId())!=null 
 				&& vehiculo.getParkingId()==0) {
-			dao.updateCoche(vehiculo);
-		}else {
-			dao.updateCoche(vehiculo);
+			int registro=dao.buscaRegistroVehiculo(vehiculo.getMatricula(), vehiculo.getParkingId()).getRegistro();
+			dao.updateCoche(vehiculo, registro);
+		}else{
+			int registro=dao.buscaRegistroVehiculo(vehiculo.getMatricula(), vehiculo.getParkingId()).getRegistro();
+			dao.updateCoche(vehiculo, registro);
 		}
 		
 		ResponseEntity<DTOVehiculos> respuestaHTTP = new ResponseEntity<DTOVehiculos>(vehiculo, HttpStatus.CREATED);
@@ -74,31 +75,45 @@ public class HomeController {
 	 @RequestMapping(value="coste/{matricula}",method= RequestMethod.GET)
 	 public @ResponseBody String coste(@PathVariable (value="matricula")String matricula,Model model) {
 	 	String precio=""; 	
-	 	/*
+	 	
+	 	/* No
 	 	DTOVehiculos vehiculos = new DTOVehiculos();
 	 	vehiculos = dao.buscaMatricula(matricula);
 	 	*/
+
+	 	
 	 	//Buscamos la matricula en BDDD
 	 	if(dao.buscaMatricula(matricula)!=null) {
-	 		int registroEntr=dao.buscaRegistroVehiculo(matricula, 0).getRegistro();
-	 		int registroSali=dao.buscaRegistroVehiculo(matricula, 1).getRegistro();
+	 		
+	 		/* No es así.
+	 		int registroEntr=dao.buscaRegistroVehiculo(matricula, dao.buscaParkingIDVehiculo(0).getParkingId()).getRegistro();
+	 		int registroSali=dao.buscaRegistroVehiculo(matricula, dao.buscaParkingIDVehiculo(1).getParkingId()).getRegistro();
+	 		*/
+	 		
 	 		//obtenemos el tiempo de entrada y salida 
-	 		Timestamp tentrada = dao.tentrada(registroEntr);
-	 		Timestamp tsalida = dao.tsalida(registroSali);
+	 		Timestamp tentrada = dao.tentrada(matricula, dao.buscaParkingIDVehiculo(0).getParkingId());
+	 		Timestamp tsalida = dao.tsalida(matricula, dao.buscaParkingIDVehiculo(1).getParkingId());
 
-	 		//comparamos que el tsalida sea mayor que tiempo de entrada	 		if(tsalida!=null && tentrada!=null && tsalida>=tentrada) {
-	 		System.out.println("Segundos de estancia: "+((tsalida.getTime()-
-	 				tentrada.getTime())/1000) );
-	 		long tiempo = ((tsalida.getTime()-tentrada.getTime())/1000);
-	 		long Tarifa=(long) 0.3456;
-	 		long coste= tiempo * Tarifa ;
+	 		if(tentrada==null || tsalida==null) {
+	 			double coste=0;
+	 			model.addAttribute("coste",coste) ;   
+	 	 		precio = Double.toString(coste);
+	 	 		
+	 		}else {
+	 			
+	 		System.out.println("Horas de estancia: "+(((tsalida.getTime()-
+	 				tentrada.getTime())/1000)/2400));
+	 		long tiempo = (((tsalida.getTime()-tentrada.getTime())/1000)/2400);
+	 		double Tarifa= 0.45;
+	 		//Coste en Euros por horas
+	 		double coste= tiempo * Tarifa;
 	 	
-	        model.addAttribute("cos",coste) ;
+	        model.addAttribute("coste",coste) ;
 	 	   
-	 		precio = Long.toString(coste);
+	 		precio = Double.toString(coste);
 
-
-	 	return precio;
+	 		}
+	 
 	 	}
 
 	return precio;

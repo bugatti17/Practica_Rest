@@ -11,6 +11,7 @@ public class VehiculosMapper implements RowMapper <DTOVehiculos>{
 		vehiculos.setParkingId(rs.getInt("ParkingID"));
 		vehiculos.setMatricula(rs.getString("Matricula"));
 		vehiculos.setFechaRegistro(rs.getTimestamp("TimeStamp"));
+		vehiculos.setRegistro(rs.getInt("Registro"));
 		
 		
 		return vehiculos;

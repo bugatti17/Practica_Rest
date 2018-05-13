@@ -15,9 +15,9 @@ public interface DAOVehiculosInterfaz {
 	
 	public DTOVehiculos buscaParkingIDVehiculo(int id);
 	
-	public void updateCoche(DTOVehiculos vehiculo);
+	public void updateCoche(DTOVehiculos vehiculo, int registro);
 	
-	public Timestamp tsalida(int registro);
+	public Timestamp tsalida(String matricula, int parkingID);
 
-	public Timestamp tentrada(int registro);
+	public Timestamp tentrada(String matricula, int parkingID);
 }

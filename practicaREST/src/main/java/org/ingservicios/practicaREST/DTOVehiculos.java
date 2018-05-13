@@ -25,8 +25,9 @@ public class DTOVehiculos {
 		this.registro = reg;
 	}
 	
-
 	
+	
+
 	public int getRegistro() {
 		return registro;
 	}

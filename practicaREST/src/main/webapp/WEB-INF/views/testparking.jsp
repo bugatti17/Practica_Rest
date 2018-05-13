@@ -7,8 +7,8 @@
 
 <form action="#" id="enviar">
    <h2> Simulación de los datos de barrera y matricula: </h2>
-   Parking Id: <input type="text" name="parkingId" id="parkingId" maxlength="1"> 
-   Matricula: <input type="text" name="matricula" id="matricula" maxlength="8">
+   Parking Id: <input type="text" name="parkingId" id="parkingId" maxlength="1" required> 
+   Matricula: <input type="text" name="matricula" id="matricula" maxlength="8" required>
    <br><br>
    <input type="submit" value="Envia Datos"> 
 </form>
