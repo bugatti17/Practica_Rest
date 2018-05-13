@@ -93,28 +93,25 @@ public class HomeController {
 	 		//obtenemos el tiempo de entrada y salida 
 	 		Timestamp tentrada = dao.tentrada(matricula, dao.buscaParkingIDVehiculo(0).getParkingId());
 	 		Timestamp tsalida = dao.tsalida(matricula, dao.buscaParkingIDVehiculo(1).getParkingId());
-
-	 		if(tentrada==null || tsalida==null) {
-	 			double coste=0;
-	 			model.addAttribute("coste",coste) ;   
-	 	 		precio = Double.toString(coste);
-	 	 		
-	 		}else {
 	 			
-	 		System.out.println("Horas de estancia: "+(((tsalida.getTime()-
-	 				tentrada.getTime())/1000)/2400));
-	 		long tiempo = (((tsalida.getTime()-tentrada.getTime())/1000)/2400);
-	 		double Tarifa= 0.45;
-	 		//Coste en Euros por horas
+	 		double tiempo = (((tsalida.getTime()-tentrada.getTime())/1000)/60);
+	 		System.out.println("Minutos de estancia: "+ tiempo);
+	 		
+	 		double Tarifa= 0.01;
+	 		//Coste en Euros por minuto
 	 		double coste= tiempo * Tarifa;
 	 	
-	        model.addAttribute("coste",coste) ;
+	     // No necesario model
 	 	   
 	 		precio = Double.toString(coste);
 
+	 		}else {
+	 			double coste=0;
+  
+	 	 		precio = Double.toString(coste);
 	 		}
 	 
-	 	}
+	 	
 
 	return precio;
 }
