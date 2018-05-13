@@ -28,9 +28,7 @@ public class HomeController {
 		@Autowired
 		private DAOVehiculosInterfaz dao;
 		
-		long tiempo=0;
-		long tiempo1=0;
-		long tiempo2=0;
+
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -43,30 +41,19 @@ public class HomeController {
 		boolean resul=false;
 		if(dao.buscaMatricula(vehiculo.getMatricula())==null && vehiculo.getParkingId()==0) {
 		dao.addVehiculo(vehiculo);
-		Timestamp tentrada = dao.tentrada(vehiculo);
-		tiempo1= tentrada.getTime();
 		
 		
-		
-		
-		}else {
-			dao.updateCoche(vehiculo);
-			Timestamp tsalida = dao.tsalida(vehiculo);
-			tiempo2 = tsalida.getTime();
-		}
-		tiempo=tiempo2-tiempo1;
-		/*
-		else if(dao.buscaMatricula(vehiculo.getMatricula())!=null && vehiculo.getParkingId()==1 
+		}else if(dao.buscaMatricula(vehiculo.getMatricula())!=null && vehiculo.getParkingId()==1 
 				&& dao.buscaParkingIDVehiculo(vehiculo.getParkingId())==null) {
 			dao.addVehiculo(vehiculo);
-			resul=true;
+			
 		}else if(dao.buscaMatricula(vehiculo.getMatricula())!=null && dao.buscaParkingIDVehiculo(vehiculo.getParkingId())!=null 
 				&& vehiculo.getParkingId()==0) {
 			dao.updateCoche(vehiculo);
 		}else {
 			dao.updateCoche(vehiculo);
 		}
-		*/
+		
 		ResponseEntity<DTOVehiculos> respuestaHTTP = new ResponseEntity<DTOVehiculos>(vehiculo, HttpStatus.CREATED);
 		return respuestaHTTP;
 		
@@ -87,16 +74,17 @@ public class HomeController {
 	 @RequestMapping(value="coste/{matricula}",method= RequestMethod.GET)
 	 public @ResponseBody String coste(@PathVariable (value="matricula")String matricula,Model model) {
 	 	String precio=""; 	
+	 	/*
 	 	DTOVehiculos vehiculos = new DTOVehiculos();
 	 	vehiculos = dao.buscaMatricula(matricula);
-	 	
+	 	*/
 	 	//Buscamos la matricula en BDDD
-	 	if(dao.buscaMatricula(vehiculos.getMatricula())!=null) {
-	 		
-	 		
+	 	if(dao.buscaMatricula(matricula)!=null) {
+	 		int registroEntr=dao.buscaRegistroVehiculo(matricula, 0).getRegistro();
+	 		int registroSali=dao.buscaRegistroVehiculo(matricula, 1).getRegistro();
 	 		//obtenemos el tiempo de entrada y salida 
-/*	 		Timestamp tentrada = dao.tentrada(vehiculos);
-	 		Timestamp tsalida = dao.tsalida(vehiculos);
+	 		Timestamp tentrada = dao.tentrada(registroEntr);
+	 		Timestamp tsalida = dao.tsalida(registroSali);
 
 	 		//comparamos que el tsalida sea mayor que tiempo de entrada	 		if(tsalida!=null && tentrada!=null && tsalida>=tentrada) {
 	 		System.out.println("Segundos de estancia: "+((tsalida.getTime()-
@@ -108,14 +96,8 @@ public class HomeController {
 	        model.addAttribute("cos",coste) ;
 	 	   
 	 		precio = Long.toString(coste);
-*/
-	 		long Tarifa=(long) 0.3456;
-	 		long coste= tiempo * Tarifa ;
-	 	
-	        model.addAttribute("cos",coste) ;
-	 	   
-	 		precio = Long.toString(coste);
-	 	//}
+
+
 	 	return precio;
 	 	}
 

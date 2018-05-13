@@ -49,9 +49,9 @@ public class DAOVehiculos implements DAOVehiculosInterfaz {
 		}
 	
 	
-	public DTOVehiculos buscaRegistroVehiculo(String matricula) {
-		String sql = "select Registro from vehiculos where Matricula = ?";
-		Object[] parametros = {matricula};
+	public DTOVehiculos buscaRegistroVehiculo(String matricula, int parkingID) {
+		String sql = "select Registro from vehiculos where Matricula = ? AND ParkingID = ?";
+		Object[] parametros = {matricula, parkingID};
 		VehiculosMapper mapper = new VehiculosMapper();
 		List<DTOVehiculos> vehiculos = this.jdbcTemplate.query(sql, parametros, mapper);
 		if (vehiculos.isEmpty()) return null;
@@ -80,18 +80,18 @@ public class DAOVehiculos implements DAOVehiculosInterfaz {
 	
 	
 	//Obtener tiempo de salida
-	public Timestamp tsalida(DTOVehiculos vehiculo){ 
-		String sql = "select TimeStamp from vehiculos where Matricula= ? AND ParkingID= ?";
-		Object[] parametros = {vehiculo.getMatricula(), vehiculo.getParkingId()}; 
+	public Timestamp tsalida(int registro){
+		String sql = "select TimeStamp from vehiculos where Registro= ?";
+		Object[] parametros = {registro}; 
 		VehiculosMapper mapper = new VehiculosMapper();
 		List<DTOVehiculos> vehiculos = this.jdbcTemplate.query(sql, parametros, mapper);
 		if (vehiculos.isEmpty()) return null;
 		else return vehiculos.get(0).getFechaRegistro();
 		}
 	//Obtener tiempo de entrada
-	public Timestamp tentrada(DTOVehiculos vehiculo){
-		String sql = "select TimeStamp from vehiculos where Matricula= ? AND ParkingID = ?";
-		Object[] parametros = {vehiculo.getMatricula(), vehiculo.getParkingId()};
+	public Timestamp tentrada(int registro){
+		String sql = "select TimeStamp from vehiculos where Registro= ?";
+		Object[] parametros = {registro};
 		VehiculosMapper mapper = new VehiculosMapper();
 		List <DTOVehiculos> vehiculos = this.jdbcTemplate.query(sql, parametros, mapper);
 		if (vehiculos.isEmpty()) return null;
