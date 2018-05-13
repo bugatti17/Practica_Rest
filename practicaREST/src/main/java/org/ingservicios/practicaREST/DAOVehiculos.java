@@ -50,8 +50,8 @@ public class DAOVehiculos implements DAOVehiculosInterfaz {
 	
 	
 	public DTOVehiculos buscaRegistroVehiculo(String matricula, int parkingID) {
-		String sql = "select Registro from vehiculos where Matricula = ? AND ParkingID = ?";
-		Object[] parametros = {matricula, parkingID};
+		String sql = "select * from vehiculos where ParkingID = ? AND Matricula = ?";
+		Object[] parametros = {parkingID, matricula};
 		VehiculosMapper mapper = new VehiculosMapper();
 		List<DTOVehiculos> vehiculos = this.jdbcTemplate.query(sql, parametros, mapper);
 		if (vehiculos.isEmpty()) return null;
@@ -68,30 +68,31 @@ public class DAOVehiculos implements DAOVehiculosInterfaz {
 		else return vehiculos.get(0);
 		}
 	
-	public void updateCoche(DTOVehiculos vehiculo){
-		String sql = "update vehiculos SET ParkingID = ?, Matricula = ? ,TimeStamp =? where ParkingID= ?";
+	public void updateCoche(DTOVehiculos vehiculo, int registro){
+		String sql = "update vehiculos SET ParkingID = ?, Matricula = ? ,TimeStamp =? where Registro= ?";
 		//Obtenemos fecha actual para actualizarla
 		Calendar calendar = Calendar.getInstance();
 		Timestamp currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
-		Object[] parametros = {vehiculo.getParkingId(),vehiculo.getMatricula(),currentTimestamp,vehiculo.getParkingId()}; 
+		Object[] parametros = {vehiculo.getParkingId(),vehiculo.getMatricula(),currentTimestamp,registro}; 
 		//Para operaciones INSERT, UPDATE o DELETE se usa el método jdbcTemplate.update
 		this.jdbcTemplate.update(sql,parametros);
 	}
 	
 	
 	//Obtener tiempo de salida
-	public Timestamp tsalida(int registro){
-		String sql = "select TimeStamp from vehiculos where Registro= ?";
-		Object[] parametros = {registro}; 
+	public Timestamp tsalida(String matricula, int parkingID){
+		String sql = "select * from vehiculos where ParkingID = ? AND Matricula = ?";
+		Object[] parametros = {parkingID, matricula}; 
 		VehiculosMapper mapper = new VehiculosMapper();
 		List<DTOVehiculos> vehiculos = this.jdbcTemplate.query(sql, parametros, mapper);
 		if (vehiculos.isEmpty()) return null;
 		else return vehiculos.get(0).getFechaRegistro();
 		}
+	
 	//Obtener tiempo de entrada
-	public Timestamp tentrada(int registro){
-		String sql = "select TimeStamp from vehiculos where Registro= ?";
-		Object[] parametros = {registro};
+	public Timestamp tentrada(String matricula, int parkingID){
+		String sql = "select * from vehiculos where ParkingID = ? AND Matricula = ?";
+		Object[] parametros = {parkingID, matricula};
 		VehiculosMapper mapper = new VehiculosMapper();
 		List <DTOVehiculos> vehiculos = this.jdbcTemplate.query(sql, parametros, mapper);
 		if (vehiculos.isEmpty()) return null;
