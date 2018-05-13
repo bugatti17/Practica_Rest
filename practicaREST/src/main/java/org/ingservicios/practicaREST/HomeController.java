@@ -72,7 +72,7 @@ public class HomeController {
 	
 	 //En el caso de solicitar los datos de un único elemento, es común identificarlo mediante un id 
 	 //en la URL del recurso, para ello, Spring facilita la etiqueta @PathVariable
-	 @RequestMapping(value="coste/{matricula}",method= RequestMethod.GET)
+	 @RequestMapping(value="/coste/{matricula}",method= RequestMethod.GET)
 	 public @ResponseBody String coste(@PathVariable (value="matricula")String matricula,Model model) {
 	 	String precio=""; 	
 	 	
