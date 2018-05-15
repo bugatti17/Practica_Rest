@@ -68,6 +68,15 @@ public class DAOVehiculos implements DAOVehiculosInterfaz {
 		else return vehiculos.get(0);
 		}
 	
+	public DTOVehiculos buscaParkingIDVehiculoMatricula(int id, String matricula){ 
+		String sql = "select * from vehiculos where ParkingID= ? AND Matricula= ?";
+		Object[ ] parametros = {id, matricula}; //Array de objetos
+		VehiculosMapper mapper = new VehiculosMapper();
+		List<DTOVehiculos> vehiculos = this.jdbcTemplate.query(sql, parametros, mapper);
+		if (vehiculos.isEmpty()) return null;
+		else return vehiculos.get(0);
+		}
+	
 	public void updateCoche(DTOVehiculos vehiculo, int registro){
 		String sql = "update vehiculos SET ParkingID = ?, Matricula = ? ,TimeStamp =? where Registro= ?";
 		//Obtenemos fecha actual para actualizarla

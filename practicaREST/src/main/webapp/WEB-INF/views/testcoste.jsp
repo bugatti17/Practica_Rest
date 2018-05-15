@@ -12,10 +12,9 @@
 Coste:  <span id="coste"></span> Euros
 <script type="text/javascript">
 	$('#consulta').submit(function(evento){
-		<!-- No hace bien la llamada -->
-		var urlrest = 'coste/' + $('#matricula').val();
+		var urlrest = 'coste/' + $('#matricula').val(); 
 		$('#coste').load(encodeURI(urlrest));  //Petición GET al servicio REST y el resultado se visualiza en elemento #coste
-		evento.preventDefault();
+		evento.preventDefault(); 
 	})
 </script>
 

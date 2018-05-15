@@ -42,11 +42,11 @@ public class HomeController {
 		if(dao.buscaMatricula(vehiculo.getMatricula())==null && vehiculo.getParkingId()==0) {
 		dao.addVehiculo(vehiculo);
 		
-		}else if(dao.buscaMatricula(vehiculo.getMatricula())!=null && vehiculo.getParkingId()==1 
-				&& dao.buscaParkingIDVehiculo(vehiculo.getParkingId())==null) {
+		}else if(dao.buscaMatricula(vehiculo.getMatricula())!=null && dao.buscaParkingIDVehiculoMatricula(vehiculo.getParkingId(),vehiculo.getMatricula())==null
+				&& vehiculo.getParkingId()==1) {
 			dao.addVehiculo(vehiculo);
 			
-		}else if(dao.buscaMatricula(vehiculo.getMatricula())!=null && dao.buscaParkingIDVehiculo(vehiculo.getParkingId())!=null 
+		}else if(dao.buscaMatricula(vehiculo.getMatricula())!=null && dao.buscaParkingIDVehiculoMatricula(vehiculo.getParkingId(), vehiculo.getMatricula())!=null 
 				&& vehiculo.getParkingId()==0) {
 			int registro=dao.buscaRegistroVehiculo(vehiculo.getMatricula(), vehiculo.getParkingId()).getRegistro();
 			dao.updateCoche(vehiculo, registro);
