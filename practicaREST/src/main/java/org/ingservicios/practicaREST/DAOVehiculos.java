@@ -99,6 +99,7 @@ public class DAOVehiculos implements DAOVehiculosInterfaz {
 		}
 	
 	//Obtener tiempo de entrada
+	//Nota: Este método hace lo mismo que el metodo de tsalida, no es necesario definirlo.
 	public Timestamp tentrada(String matricula, int parkingID){
 		String sql = "select * from vehiculos where ParkingID = ? AND Matricula = ?";
 		Object[] parametros = {parkingID, matricula};
